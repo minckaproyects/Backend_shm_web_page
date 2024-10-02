@@ -22,6 +22,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from zoneinfo import ZoneInfo
 
 import backend.database_connection as db_con
 import backend.event_detector as event_detect
@@ -32,8 +33,8 @@ import backend.rainflow as rainflow
 
 startTime = datetime.now()
 
-
-date_now = datetime.now() + timedelta(hours = 10)
+timezone = ZoneInfo('Australia/Melbourne')
+date_now = datetime.now(timezone) + timedelta(hours = -10)
 year = date_now.year
 month = date_now.month
 day = date_now.day
@@ -41,7 +42,7 @@ hour = date_now.hour
 Q2 = datetime(year, month, day, hour, 0, 0)
 Q1 = Q2 - timedelta(hours = 1)
 
-print("Don't forget Bocchi")
+#print("Don't forget Bocchi")
 print(Q1)
 print('Loading data')
 

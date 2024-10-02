@@ -10,9 +10,14 @@ from sqlalchemy import create_engine,exc
 ## Global Settigns and credentials loads
 current_path = Path(str(__file__)).parent
 
-with open(current_path/'credentials.yaml') as file:
-    credentials = yaml.load(file, Loader=yaml.FullLoader)
-    
+#with open(current_path/'credentials2024.yaml') as file:
+#    credentials = yaml.load(file, Loader=yaml.FullLoader)
+
+db_endpoint = "testinhk.ckensqtixcpt.ap-southeast-2.rds.amazonaws.com"
+db_port = "5432"
+db_name = "HKdatabase"
+db_user = "postgres"
+db_password = "Mincka.2024"   
 
 def preprocess(df,columns):
     """
@@ -49,11 +54,11 @@ def create_connection():
     """
     engine = None
     
-    host = credentials['host']
-    database = credentials['database_name']
-    user = credentials['user']
-    password = credentials['password']
-    port = credentials['port']
+    host = db_endpoint
+    database = db_name
+    user = db_user
+    password = db_password
+    port = db_port
           
     try:
         engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{database}')
@@ -82,10 +87,10 @@ def connection_and_data_retrieving(Q1,Q2):
     con = None
     try:
         con = psycopg2.connect(
-            host=credentials['host'],
-            database=credentials['database_name'],
-            user=credentials['user'],
-            password=credentials['password']  
+            host=db_endpoint,
+            database=db_name,
+            user=db_user,
+            password=db_password  
         )
     except psycopg2.DatabaseError as e:
         print(f'Error {e}')
@@ -94,12 +99,12 @@ def connection_and_data_retrieving(Q1,Q2):
     df = pd.read_sql(
     f'''
     SELECT *
-    FROM "100hz_python_SIM" sim
-    WHERE sim.sampledatetime
+    FROM "100hz_python_SIM_ALL_SENSORS_WORKING_OCT" sim
+    WHERE sim.timestamp
         BETWEEN '{Q1}'
             AND '{Q2}';
     ''', con)
-    columns = ['sampledatetime','AI1','AI2','AI3','AI4','AI5','AI10','AI11','AI12']
+    columns = ['timestamp','ai1','ai2','ai3','ai4','ai5', 'ai6', 'ai7','ai8','ai9','ai10','ai11','ai12']
     accelerations_df = preprocess(df,columns)
     con.close()
     

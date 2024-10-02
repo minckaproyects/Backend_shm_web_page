@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import numpy as np
-import openseespy.postprocessing.ops_vis as opsv
+import opsvis as opsv
 
 import backend.TimeHistory.Functions_Hailcreek as FHK
 
@@ -37,8 +37,8 @@ for k in range(len(NNI)):
     Nodes = FHK.Create_conect_copynode(NNI[k],NNJ[k],conect,Nodes)
     
 def get_sensor_data(accelerations_df, interval, sensor):
-    Data_sensor = accelerations_df[['sampledatetime',sensor]]
-    data_interval = Data_sensor[(Data_sensor['sampledatetime'] >= interval[0]) & (Data_sensor['sampledatetime'] <= interval[1])]
+    Data_sensor = accelerations_df[['timestamp',sensor]]
+    data_interval = Data_sensor[(Data_sensor['timestamp'] >= interval[0]) & (Data_sensor['timestamp'] <= interval[1])]
     sensor_txt = sensor+'.txt'
     np.savetxt(current_path/'data_generated'/'timehistoryfiles'/'sensors'/sensor_txt,data_interval[sensor], fmt='%s')
     

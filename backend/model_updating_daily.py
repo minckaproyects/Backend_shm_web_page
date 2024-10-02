@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -110,9 +110,9 @@ def get_last_hour_accelerations(engine, df):
     accelerations_df_interval: numpy array of arrays
         Matrix containing the accelerations of the last event of the previous day.
     '''
-    date1 = datetime.utcfromtimestamp(df['date1'].unique()[0].tolist()/1e9)
-    date2 = datetime.utcfromtimestamp(df['date2'].unique()[0].tolist()/1e9)
-    get_data_acceleration_query = f'''SELECT * FROM "100hz_python_SIM" WHERE sampledatetime BETWEEN '{date1}' AND '{date2}';'''
+    date1 = datetime.fromtimestamp(df['date1'].unique()[0] / 1e9, tz=timezone.utc)
+    date2 = datetime.fromtimestamp(df['date2'].unique()[0] / 1e9, tz=timezone.utc)
+    get_data_acceleration_query = f'''SELECT * FROM "100hz_python_SIM" WHERE timestamp BETWEEN '{date1}' AND '{date2}';'''
     acceleration_data_interval = pd.read_sql(get_data_acceleration_query, engine)
     columns = ['AI1','AI2','AI3','AI4','AI5','AI10','AI11','AI12']
     accelerations_df_interval = acceleration_data_interval[columns]

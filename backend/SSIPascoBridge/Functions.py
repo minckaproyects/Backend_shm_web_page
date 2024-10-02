@@ -12,7 +12,7 @@ from scipy import signal
 import numpy as np
 import openseespy.opensees as ops
 import warnings
-import openseespy.postprocessing.ops_vis as opsv
+import opsvis as opsv
 
 import psycopg2
 import sys
@@ -252,7 +252,7 @@ def retrieve_Data2(Q1,Q2):
         
         cur = con.cursor()
            
-        query = f'''SELECT * FROM "100hz_python_SIM" sim WHERE sim.sampledatetime >='{Q1}' AND sim.sampledatetime < '{Q2}' ;'''
+        query = f'''SELECT * FROM "100hz_python_SIM" sim WHERE sim.timestamp >='{Q1}' AND sim.timestamp < '{Q2}' ;'''
         Datao = pd.read_sql(query,con).to_numpy()
         Data =  np.delete(Datao ,[0,6,7,8,9,10,11,12,13,14,15,16],1)
         Nc= Data.shape[1]
@@ -264,8 +264,8 @@ def retrieve_Data2(Q1,Q2):
         
         
         
-        # query = f"SELECT *FROM `100hz_python_SIM` WHERE sim.sampledatetime >= \'2020-12-24 10:00:00\'\n AND sim.sampledatetime < \'2020-12-24 10:10:00\'\n"
-        # get_ipython().run_cell_magic('time', '', 'df = pd.read_sql(\n    \'\'\'\n    SELECT *\n    FROM "100hz_python_SIM" sim\n    WHERE sim.sampledatetime >= \'2020-12-24 10:00:00\'\n        AND sim.sampledatetime < \'2020-12-24 10:10:00\'\n    ;\n    \'\'\',\n    con\n)')
+        # query = f"SELECT *FROM `100hz_python_SIM` WHERE sim.timestamp >= \'2020-12-24 10:00:00\'\n AND sim.timestamp < \'2020-12-24 10:10:00\'\n"
+        # get_ipython().run_cell_magic('time', '', 'df = pd.read_sql(\n    \'\'\'\n    SELECT *\n    FROM "100hz_python_SIM" sim\n    WHERE sim.timestamp >= \'2020-12-24 10:00:00\'\n        AND sim.timestamp < \'2020-12-24 10:10:00\'\n    ;\n    \'\'\',\n    con\n)')
 
 
         

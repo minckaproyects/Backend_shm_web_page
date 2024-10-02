@@ -80,7 +80,7 @@ def get_events(df,delta = 80,time_unit = 's'):
         peaks[rows,col] = vals['peak_heights']
         isEvent[rows] = True
         
-    times = df.loc[isEvent,'sampledatetime'].values
+    times = df.loc[isEvent,'timestamp'].values
     time_events = list()
     
     i = 0

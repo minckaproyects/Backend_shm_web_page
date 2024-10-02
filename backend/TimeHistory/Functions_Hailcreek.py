@@ -4,7 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import openseespy.opensees as ops
-import openseespy.postprocessing.ops_vis as opsv
+import opsvis as opsv
 # import BSDTA as BS
 from scipy import stats
 from pathlib import Path
